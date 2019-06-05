@@ -4,7 +4,6 @@ import ComponentOne from './components/componentOne';
 class App extends React.Component {
   state = {
     header: "Hello there",
-    name: "Stranger",
     form: "Chat"
   }
 
@@ -17,14 +16,16 @@ class App extends React.Component {
         <header>
           <h1>{this.state.header}</h1>
         </header>
-        <form onSubmit={this.submitFormHandler}>
-            <p><b>{this.state.form}</b></p>
-            <input type="text" name={this.text}/>
-            <button>Submit</button>
-        </form>
-        <ComponentOne />
+        <ComponentOne 
+        changeState={this.changeState.bind(this)}/>
+        <div id="chat">{this.state.text}</div>
       </div>
-    )
+    );
+  }
+  changeState(){
+    this.setState((state, props) => ({
+      text: "gives"
+    }));
   }
 }
 
