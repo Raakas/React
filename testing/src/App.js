@@ -1,13 +1,16 @@
 import React from 'react';
 import {BrowserRouter, Route, Link} from 'react-router-dom';
-import ComponentOne from './components/ComponentOne';
-import ComponentTwo from './components/ComponentOne';
+import getWeather from './openWeatherMapAPI';
 
 class App extends React.Component {
   state = {
-    header: "Hello there",
-    form: "Chat"
+    header: "Weather forecasts"
   }
+
+  componentDidMount() {
+    getWeather();
+  }
+
   render () {
     return (
       <BrowserRouter>
@@ -15,15 +18,9 @@ class App extends React.Component {
         <header>
           <h1>{this.state.header}</h1>
         </header>
-        <Link to="/">home page</Link>
-        <Link to="/other">Other page</Link>
-        <Route path="/other" render={() => (
-          <ComponentOne 
-          changeState={this.changeState.bind(this)}/>
-        )} />
-        <Route path="/other" render={() => (
-          <ComponentTwo />
-        )} />
+        <Link to="/weather">Weather</Link>
+        <Link to="/forecast">Forecast</Link>
+
       </div>  
     </BrowserRouter>
     );

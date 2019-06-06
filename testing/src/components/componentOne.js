@@ -1,12 +1,12 @@
 import React from 'react';
 import '../myStyle.css';
+import getWeather from '../openWeatherMapAPI';
 
 const ComponentOne = (props) => {
     return (
       <div>
-      <p>Component one here!</p>
-        <input type="text" value={props.text}/>
-        <button onClick={props.changeState}>Glicks</button>
+        <p>Component one here!</p>
+            {getWeather}
       </div>
     )
 }
