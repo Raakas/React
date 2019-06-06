@@ -1,25 +1,33 @@
 import React from 'react';
 import {BrowserRouter, Route, Link} from 'react-router-dom';
-import getWeather from './openWeatherMapAPI';
+import axios from 'axios';
+
+const API = '037362528e461435f3315b2e8feadf50';
+const URL = 'http://api.openweathermap.org/data/2.5/forecast?q=';
 
 class App extends React.Component {
-  state = {
-    header: "Weather forecasts"
-  }
 
-  componentDidMount() {
-    getWeather();
-  }
+    componentDidMount(){
+      axios.get(`${URL}oulu&appid=${API}`)
+      .then(response => console.log(response))
+      .catch(error => console.log(error));
+    }
 
   render () {
+
     return (
       <BrowserRouter>
       <div className="App">
         <header>
-          <h1>{this.state.header}</h1>
+          <h1>Weather forecasts</h1>
         </header>
-        <Link to="/weather">Weather</Link>
         <Link to="/forecast">Forecast</Link>
+        <Route path="/forecast" render={() => (
+          <div>
+          <h3>Forecast</h3>
+          <p>{this.state}</p>
+          </div>
+        )} />
 
       </div>  
     </BrowserRouter>
