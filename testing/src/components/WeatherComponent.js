@@ -6,6 +6,7 @@ const WeatherComponent = (props) => {
   return (
     <div>
       <p>Component one here!</p>
+      <di>props.data</di>
     </div>
   )
 }

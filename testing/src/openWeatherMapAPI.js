@@ -5,7 +5,9 @@ const URL = 'http://api.openweathermap.org/data/2.5/forecast?q=';
 
 export default function getWeather() {
     axios.get(`${URL}oulu&appid=${API}`)
-        .then(response => response.json())
-        .then(data => this.setState({ hits: data.hits }))
+        .then(response => {
+            let res = response;
+            return res;
+        })
         .catch(error => console.log(error));
 }
