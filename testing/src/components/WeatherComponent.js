@@ -6,7 +6,8 @@ const WeatherComponent = (props) => {
   return (
     <div>
       <p>Component one here!</p>
-      <di>props.data</di>
+      <div>{props.city}</div>
+      <p onClick={props.changeState}>Click</p>
     </div>
   )
 }

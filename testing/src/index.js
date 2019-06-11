@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
-import {createStore} from 'redux';
+import {createStore, applyMiddleware} from 'redux';
 import {Provider} from 'react-redux';
 import rootReducer from './reducer/rootReducer'
 import rootReducer2 from './reducer/rootReducer2'
@@ -12,8 +12,13 @@ const allReducers = combineReducers({
    rootReducer2,
 });
 
+const logger = store => next => action => {
+    next(action);
+}
 
-const store = createStore(allReducers);
+const mw = applyMiddleware(logger);
+
+const store = createStore(allReducers, {}, mw);
 
 ReactDOM.render(
     <Provider store={store}>

@@ -3,19 +3,17 @@ import {BrowserRouter, Route, Link} from 'react-router-dom';
 import {connect} from 'react-redux';
 import actionOne from './actions/basicActions';
 import getWeather from './openWeatherMapAPI';
+import WeatherComponent from './components/WeatherComponent';
 
 class App extends React.Component {
 
     state = {
-      data: 'city'
+      data: 'cityNameHere'
     }
 
     componentDidMount(){
-      getWeather(res => {
-        console.log(res);
-        this.setState({data: res.data.city.name})
-      })
-
+      const city = getWeather();
+      console.log(city);
     }
 
   render () {
@@ -25,7 +23,8 @@ class App extends React.Component {
       <div className="App">
         <header>
           <h1>Weather forecasts</h1>
-          <p>{this.props.value_a}</p>
+          <input type="text" id="field" />
+          <p onClick={() => this.props.actionOne(document.querySelector('#field').value)}>{this.props.value_a}</p>
           <p>{this.props.value_b}</p>
         </header>
         <Link to="/">Home</Link><br/>
@@ -34,16 +33,19 @@ class App extends React.Component {
           <div>
           <h3>Forecast</h3>
           <p>{this.state.data}</p>
+          <WeatherComponent 
+            changeState={this.changeState.bind(this)}
+          />
           </div>
         )} />
 
-      </div>  
+      </div>
     </BrowserRouter>
     );
   }
-  changeState(){
+  changeState() {
     this.setState((state, props) => ({
-      text: "gives"
+      data: 'Oulu'
     }));
   }
 }
