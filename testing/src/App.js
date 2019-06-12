@@ -2,8 +2,9 @@ import React from 'react';
 import {BrowserRouter, Route, Link} from 'react-router-dom';
 import {connect} from 'react-redux';
 import actionOne from './actions/basicActions';
-import WeatherComponent from './components/WeatherComponent';
 import axios from 'axios';
+import {XYPlot, XAxis, YAxis, HorizontalGridLines, LineSeries} from 'react-vis';
+import '../node_modules/react-vis/dist/style.css';
 
 const API = '037362528e461435f3315b2e8feadf50';
 const URL = 'http://api.openweathermap.org/data/2.5/forecast?q=';
@@ -12,17 +13,21 @@ const city = 'Oulu';
 class App extends React.Component {
 
     state = {
-      city: 'cityNameHere'
+      city: city
     }
 
     getWeather() {
       axios.get(`${URL}${city}&appid=${API}`)
         .then(data => {
 
-          const city = JSON.stringify(data.data.city.name);
-          
+          let coord = {data:[]};
+
+          for(let i in data.data.list){
+            coord.data[i] = { 'x' : data.data.list[i].dt, 'y' : data.data.list[i].main.temp}
+          }
+
             this.setState({
-              city: city
+              data: coord.data
             })
           })
           .catch(error => console.log(error));
@@ -48,21 +53,23 @@ class App extends React.Component {
         <Route path="/forecast" render={() => (
           <div>
           <h3>Forecast</h3>
-          <p>{this.state.city}</p>
-          <WeatherComponent 
-            changeState={this.changeState.bind(this)}
-          />
+          <h2>{this.state.city}</h2>
+          <XYPlot
+            width={300}
+            height={300}>
+            <HorizontalGridLines />
+            <LineSeries
+              data={this.state.data}/>
+            <XAxis />
+            <YAxis />
+        </XYPlot>
+
           </div>
         )} />
 
       </div>
     </BrowserRouter>
     );
-  }
-  changeState() {
-    this.setState((state, props) => ({
-      data: 'Oulu'
-    }));
   }
 }
 
